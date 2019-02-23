@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{94834E1F-F950-42AF-8662-7E98116B06C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SVN.AspNet</RootNamespace>
+    <AssemblyName>SVN.AspNet</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configs\BundleConfig.cs" />
+    <Compile Include="Configs\FilterConfig.cs" />
+    <Compile Include="Configs\RouteConfig.cs" />
+    <Compile Include="Engines\Engine1.cs" />
+    <Compile Include="Engines\Engine.cs" />
+    <Compile Include="Models\ViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSans-Bold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSans-BoldOblique.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSans-ExtraLight.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSans-Oblique.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSans.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSansMono-Bold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSansMono-BoldOblique.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSansMono-Oblique.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSansMono.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSerif-Bold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSerif-BoldItalic.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSerif-Italic.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\DejaVu\DejaVuSerif.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\KendoUI\KendoUIGlyphs.eot" />
+    <EmbeddedResource Include="Assets\Fonts\KendoUI\KendoUIGlyphs.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\KendoUI\KendoUIGlyphs.woff" />
+    <EmbeddedResource Include="Assets\Fonts\WebComponents\WebComponentsIcons.eot" />
+    <EmbeddedResource Include="Assets\Fonts\WebComponents\WebComponentsIcons.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\WebComponents\WebComponentsIcons.woff" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-brands-400.eot" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-brands-400.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-brands-400.woff" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-brands-400.woff2" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-regular-400.eot" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-regular-400.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-regular-400.woff" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-regular-400.woff2" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.eot" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.woff" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.woff2" />
+    <None Include="nuget.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SVN.Core\SVN.Core.csproj">
+      <Project>{82c01693-2843-4662-8bfc-3726f9e6f548}</Project>
+      <Name>SVN.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SVN.Debug\SVN.Debug.csproj">
+      <Project>{4977ffe4-f923-4204-b081-17377ff5811e}</Project>
+      <Name>SVN.Debug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SVN.Reflection\SVN.Reflection.csproj">
+      <Project>{419597b6-d215-427b-b1a3-52ad07a5dadb}</Project>
+      <Name>SVN.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SVN.Security\SVN.Security.csproj">
+      <Project>{7C0B4214-A17B-4F87-95C4-6FB5C8A80EEE}</Project>
+      <Name>SVN.Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\SVN\ajax.js" />
+    <EmbeddedResource Include="Assets\Scripts\SVN\alert.js" />
+    <EmbeddedResource Include="Assets\Scripts\SVN\navigation.js" />
+    <EmbeddedResource Include="Assets\Scripts\SVN\number.js" />
+    <EmbeddedResource Include="Assets\Scripts\SVN\timestamp.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\SVN\knockout.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\Date\date.js" />
+    <EmbeddedResource Include="Assets\Scripts\jQuery\jquery.js" />
+    <EmbeddedResource Include="Assets\Scripts\KendoUI\kendo.ui.core.min.js" />
+    <EmbeddedResource Include="Assets\Scripts\KendoUI\knockout-kendo.js" />
+    <EmbeddedResource Include="Assets\Scripts\Knockout\knockout.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Styles\Bootstrap\common-bootstrap.min.css" />
+    <EmbeddedResource Include="Assets\Styles\KendoUI\kendo.common.min.css" />
+    <EmbeddedResource Include="Assets\Styles\KendoUI\kendo.materialblack.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\KendoUI\KendoUIGlyphs.svg" />
+    <EmbeddedResource Include="Assets\Fonts\WebComponents\WebComponentsIcons.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-brands-400.svg" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-regular-400.svg" />
+    <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\Bootstrap\bootstrap.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Styles\Bootstrap\bootstrap.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\Popper\popper.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\all.min.css" />
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\brands.min.css" />
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\fontawesome.min.css" />
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\regular.min.css" />
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\solid.min.css" />
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\svg-with-js.min.css" />
+    <EmbeddedResource Include="Assets\Styles\FontAwesome\v4-shims.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\SVN\window.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Styles\SVN\bootstrap.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Styles\SVN\core.css" />
+    <EmbeddedResource Include="Assets\Styles\SVN\kendo.css" />
+    <EmbeddedResource Include="Assets\Styles\SVN\responsive.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\Highcharts\highcharts.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\HighchartsThemes\gray.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

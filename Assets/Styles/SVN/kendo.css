@@ -1,0 +1,6 @@
+﻿.k-dropdown,
+.k-datepicker,
+.k-colorpicker, .k-toolbar .k-split-button,
+.k-colorpicker .k-selected-color {
+    width: 100%;
+}

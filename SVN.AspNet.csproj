@@ -135,7 +135,7 @@
       <Name>SVN.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\SVN.Security\SVN.Security.csproj">
-      <Project>{7C0B4214-A17B-4F87-95C4-6FB5C8A80EEE}</Project>
+      <Project>{7c0b4214-a17b-4f87-95c4-6fb5c8a80eee}</Project>
       <Name>SVN.Security</Name>
     </ProjectReference>
   </ItemGroup>

@@ -48,8 +48,18 @@ namespace SVN.AspNet.Models
             get
             {
                 var query = base.Request.QueryString.ToString();
-                var parameters = query.Split('&').Where(x => !string.IsNullOrWhiteSpace(x));
-                var result = parameters.Where(x => x.Contains('=')).Select(x => new
+
+                var result = query.Split('&').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x =>
+                {
+                    if (x.Contains('='))
+                    {
+                        return x;
+                    }
+                    else
+                    {
+                        return $"{x}=";
+                    }
+                }).Select(x => new
                 {
                     key = x.Substring(0, x.IndexOf("=")),
                     value = x.Remove(0, x.IndexOf("=") + 1),
@@ -69,8 +79,8 @@ namespace SVN.AspNet.Models
             this.RouteAction = context.RouteData.Values["action"] as string;
             this.RouteId = context.RouteData.Values["id"] as string;
 
-            this.AssetScript = $@"<script type='text/javascript' src='{BundleConfig.AssetUrlScripts}'></script>";
-            this.AssetStyle = $@"<link rel='stylesheet' type='text/css' href='{BundleConfig.AssetUrlStyles}'>";
+            this.AssetScript = $"<script type='text/javascript' src='{BundleConfig.AssetUrlScripts}'></script>";
+            this.AssetStyle = $"<link rel='stylesheet' type='text/css' href='{BundleConfig.AssetUrlStyles}'>";
 
             this.SharedScript = ViewModel.ReadResources(Engine.ViewsSharedPath, $"{Engine.ViewsSharedLayoutViewName}.js").Join(Environment.NewLine);
             this.SharedStyle = ViewModel.ReadResources(Engine.ViewsSharedPath, $"{Engine.ViewsSharedLayoutViewName}.css").Join(Environment.NewLine);

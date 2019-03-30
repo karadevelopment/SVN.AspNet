@@ -47945,7 +47945,6 @@
                     }
 
                     areaPath = topPath.concat(bottomPath);
-                    // TODO: don't set leftCliff and rightCliff when connectNulls?
                     graphPath = getGraphPath
                         .call(this, graphPoints, false, connectNulls);
                     areaPath.xMap = topPath.xMap;
@@ -49809,7 +49808,6 @@
              *
              * @return {Highcharts.PathObject}
              */
-            // TODO: depracated - remove it
             /*
             seriesTypes.pie.prototype.connectorPath = function (labelPos) {
                 var x = labelPos.x,

@@ -38,6 +38,11 @@ namespace SVN.AspNet.Models
             };
         }
 
+        public string RouteString
+        {
+            get => $"/{this.RouteController}/{this.RouteAction}";
+        }
+
         protected string RootUrl
         {
             get => base.Request.Url.GetLeftPart(UriPartial.Authority);

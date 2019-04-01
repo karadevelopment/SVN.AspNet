@@ -72,6 +72,14 @@ a:hover {
     flex-direction: column;
 }
 
+.flex-min {
+    flex: 0 0 auto;
+}
+
+.flex-max {
+    flex: 1 1 auto;
+}
+
 .flex-1 {
     flex: 1;
 }
@@ -822,9 +830,14 @@ a:hover {
     overflow: hidden;
 }
 
-.overflow-scroll-x {
+.overflow-auto {
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.overflow-scroll {
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .visibility-true {
@@ -927,6 +940,10 @@ a:hover {
     font-size: 10rem;
 }
 
+.text-line-height-05 {
+    line-height: 0.5;
+}
+
 .text-line-height-10 {
     line-height: 1.0;
 }
@@ -939,12 +956,28 @@ a:hover {
     line-height: 2.0;
 }
 
-.text-line-height-15 {
-    line-height: 1.5;
+.text-line-height-25 {
+    line-height: 2.5;
 }
 
 .text-line-height-30 {
     line-height: 3.0;
+}
+
+.text-line-height-35 {
+    line-height: 3.5;
+}
+
+.text-line-height-40 {
+    line-height: 4.0;
+}
+
+.text-line-height-45 {
+    line-height: 4.5;
+}
+
+.text-line-height-50 {
+    line-height: 5.0;
 }
 
 .text-strong {

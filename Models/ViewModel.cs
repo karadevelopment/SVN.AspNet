@@ -173,6 +173,24 @@ namespace SVN.AspNet.Models
             yield return this.AssetStyle;
 
             yield return "<script>";
+            yield return $"window.route = {System.Web.Helpers.Json.Encode(this.Route)};";
+            yield return "window.query = {" + this.UrlParameters.Select(x => $"{x.Key}: {x.Value}").Join(", ") + "};";
+            yield return "setQuery = function ()";
+            yield return "{";
+            yield return "let properties = [];";
+            yield return "for (let key in window.query)";
+            yield return "{";
+            yield return "properties.push(key + '=' + window.query[key]);";
+            yield return "}";
+            yield return "if (0 < properties.length)";
+            yield return "{";
+            yield return "window.history.pushState('', '', '?' + properties.join('&'));";
+            yield return "}";
+            yield return "};";
+            yield return "setQuery();";
+            yield return "</script>";
+
+            yield return "<script>";
             yield return this.RouteScript;
             yield return this.SharedScript;
             yield return "</script>";
@@ -181,11 +199,6 @@ namespace SVN.AspNet.Models
             yield return this.SharedStyle;
             yield return this.RouteStyle;
             yield return "</style>";
-
-            yield return "<script>";
-            yield return $"window.route = {System.Web.Helpers.Json.Encode(this.Route)};";
-            yield return "window.query = {" + this.UrlParameters.Select(x => $"{x.Key}: {x.Value}").Join(", ") + "};";
-            yield return "</script>";
         }
 
         public IHtmlString Render()

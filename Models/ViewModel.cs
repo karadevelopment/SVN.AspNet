@@ -174,13 +174,13 @@ namespace SVN.AspNet.Models
 
             yield return "<script>";
             yield return $"window.route = {System.Web.Helpers.Json.Encode(this.Route)};";
-            yield return "window.urlquery = {" + this.UrlParameters.Select(x => $"{x.Key}: {x.Value}").Join(", ") + "};";
+            yield return "window.query = {" + this.UrlParameters.Select(x => $"{x.Key}: {x.Value}").Join(", ") + "};";
             yield return "setQuery = function ()";
             yield return "{";
             yield return "let properties = [];";
-            yield return "for (let key in window.urlquery)";
+            yield return "for (let key in window.query)";
             yield return "{";
-            yield return "properties.push(key + '=' + window.urlquery[key]);";
+            yield return "properties.push(key + '=' + window.query[key]);";
             yield return "}";
             yield return "if (0 < properties.length)";
             yield return "{";

@@ -80,6 +80,9 @@
     <Compile Include="Configs\BundleConfig.cs" />
     <Compile Include="Configs\FilterConfig.cs" />
     <Compile Include="Configs\RouteConfig.cs" />
+    <Compile Include="DataTransferObjects\DataTableOrder.cs" />
+    <Compile Include="DataTransferObjects\DataTableParameters.cs" />
+    <Compile Include="DataTransferObjects\DataTableSearch.cs" />
     <Compile Include="Engines\Engine1.cs" />
     <Compile Include="Engines\Engine.cs" />
     <Compile Include="Models\ViewModel.cs" />
@@ -204,6 +207,35 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Scripts\HighchartsThemes\gray.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\SVN\dataTables.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\SVN\query.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Images\DataTable\sort_asc.png" />
+    <EmbeddedResource Include="Assets\Images\DataTable\sort_asc_disabled.png" />
+    <EmbeddedResource Include="Assets\Images\DataTable\sort_both.png" />
+    <EmbeddedResource Include="Assets\Images\DataTable\sort_desc.png" />
+    <EmbeddedResource Include="Assets\Images\DataTable\sort_desc_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.bootstrap.css" />
+    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.bootstrap4.css" />
+    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.foundation.css" />
+    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.jqueryui.css" />
+    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.semanticui.css" />
+    <EmbeddedResource Include="Assets\Styles\DataTable\jquery.dataTables.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.bootstrap.js" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.bootstrap4.js" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.foundation.js" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.jqueryui.js" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.semanticui.js" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\jquery.dataTables.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

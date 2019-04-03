@@ -169,26 +169,13 @@ namespace SVN.AspNet.Models
 
         private IEnumerable<string> GetRenderText()
         {
-            yield return this.AssetScript;
-            yield return this.AssetStyle;
-
             yield return "<script>";
             yield return $"window.route = {System.Web.Helpers.Json.Encode(this.Route)};";
             yield return "window.query = {" + this.UrlParameters.Select(x => $"{x.Key}: {x.Value}").Join(", ") + "};";
-            yield return "setQuery = function ()";
-            yield return "{";
-            yield return "let properties = [];";
-            yield return "for (let key in window.query)";
-            yield return "{";
-            yield return "properties.push(key + '=' + window.query[key]);";
-            yield return "}";
-            yield return "if (0 < properties.length)";
-            yield return "{";
-            yield return "window.history.pushState('', '', '?' + properties.join('&'));";
-            yield return "}";
-            yield return "};";
-            yield return "setQuery();";
             yield return "</script>";
+
+            yield return this.AssetScript;
+            yield return this.AssetStyle;
 
             yield return "<script>";
             yield return this.RouteScript;

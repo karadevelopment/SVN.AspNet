@@ -21,7 +21,7 @@ function ajaxRequest(url, request, onSuccess, onError, useQueue) {
             showError(error);
             if (useQueue != false) window.ajax.length(window.ajax.length() - 1);
             if (useQueue != false) console.log("window.ajax.length.dec", window.ajax.length());
-        }
+        },
     });
 }
 

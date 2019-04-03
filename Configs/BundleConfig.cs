@@ -10,10 +10,21 @@ namespace SVN.AspNet.Configs
     internal static class BundleConfig
     {
         private const string ASSET_FONT_DIRECTORY = "Fonts";
+        private const string ASSET_IMAGES_DIRECTORY = "Images";
         private const string ASSET_SCRIPT_FILE = "Scripts.js";
         private const string ASSET_STYLE_FILE = "Styles.css";
 
-        private const string ASSET_FONT_DIRECTORY_VAR = "{SVN.AspNet.AssetPath}";
+        private const string ASSET_DIRECTORY_VARIABLE_FONT = "{SVN.AspNet.AssetPath.Fonts}";
+        private const string ASSET_DIRECTORY_VARIABLE_IMAGES = "{SVN.AspNet.AssetPath.Images}";
+
+        private static readonly string[] AssetStyles = new string[]
+        {
+            "Assets.Styles.FontAwesome",
+            "Assets.Styles.Bootstrap",
+            "Assets.Styles.KendoUI",
+            "Assets.Styles.DataTable",
+            "Assets.Styles.SVN",
+        };
 
         private static readonly string[] AssetScripts = new string[]
         {
@@ -25,14 +36,8 @@ namespace SVN.AspNet.Configs
             "Assets.Scripts.HighchartsThemes",
             "Assets.Scripts.Knockout",
             "Assets.Scripts.KendoUI",
+            "Assets.Scripts.DataTable",
             "Assets.Scripts.SVN",
-        };
-        private static readonly string[] AssetStyles = new string[]
-        {
-            "Assets.Styles.FontAwesome",
-            "Assets.Styles.Bootstrap",
-            "Assets.Styles.KendoUI",
-            "Assets.Styles.SVN",
         };
 
         private static string AssetPath
@@ -43,6 +48,11 @@ namespace SVN.AspNet.Configs
         private static string AssetPathFonts
         {
             get => Path.Combine(BundleConfig.AssetPath, BundleConfig.ASSET_FONT_DIRECTORY);
+        }
+
+        private static string AssetPathImages
+        {
+            get => Path.Combine(BundleConfig.AssetPath, BundleConfig.ASSET_IMAGES_DIRECTORY);
         }
 
         private static string AssetPathScripts
@@ -98,30 +108,21 @@ namespace SVN.AspNet.Configs
                 BundleConfig.WriteResource(filePath, stream);
             }
         }
-        
-        private static void WriteScripts()
+
+        private static void WriteImages()
         {
-            var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathScripts);
+            var directoryPath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathImages);
 
-            if (File.Exists(filePath))
+            if (!Directory.Exists(directoryPath))
             {
-                return;
+                Directory.CreateDirectory(directoryPath);
             }
 
-            var result = string.Empty;
-            foreach (var folder in BundleConfig.AssetScripts)
+            foreach (var (filename, stream) in Assembly.GetResources(Assembly.GetCallingAssemblyName(), "Assets.Images"))
             {
-                foreach (var (filename, stream) in Assembly.GetResources(Assembly.GetCallingAssemblyName(), folder))
-                {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        var content = reader.ReadToEnd().Replace(BundleConfig.ASSET_FONT_DIRECTORY_VAR, BundleConfig.AssetPathFonts.Replace('\\', '/'));
-                        result += $"{Environment.NewLine}{content}{Environment.NewLine}";
-                    }
-                }
+                var filePath = Path.Combine(directoryPath, filename);
+                BundleConfig.WriteResource(filePath, stream);
             }
-
-            File.WriteAllText(filePath, result);
         }
 
         private static void WriteStyles()
@@ -140,7 +141,36 @@ namespace SVN.AspNet.Configs
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        var content = reader.ReadToEnd().Replace(BundleConfig.ASSET_FONT_DIRECTORY_VAR, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        var content = string.Empty;
+                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
+                        result += $"{Environment.NewLine}{content}{Environment.NewLine}";
+                    }
+                }
+            }
+
+            File.WriteAllText(filePath, result);
+        }
+
+        private static void WriteScripts()
+        {
+            var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathScripts);
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            var result = string.Empty;
+            foreach (var folder in BundleConfig.AssetScripts)
+            {
+                foreach (var (filename, stream) in Assembly.GetResources(Assembly.GetCallingAssemblyName(), folder))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var content = string.Empty;
+                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
                         result += $"{Environment.NewLine}{content}{Environment.NewLine}";
                     }
                 }
@@ -152,8 +182,9 @@ namespace SVN.AspNet.Configs
         public static void Init(BundleCollection collection)
         {
             BundleConfig.WriteFonts();
-            BundleConfig.WriteScripts();
+            BundleConfig.WriteImages();
             BundleConfig.WriteStyles();
+            BundleConfig.WriteScripts();
         }
     }
 }

@@ -12,6 +12,8 @@
         settings.columns.data = settings.columns.data || "id";
         settings.columns.text = settings.columns.text || "";
         settings.columns.orderable = settings.columns.orderable || false;
+        settings.ajaxBefore = settings.ajaxBefore || function (x) { };
+        settings.ajaxAfter = settings.ajaxAfter || function (x) { };
 
         vm.initColumns();
         vm.initDataTable();

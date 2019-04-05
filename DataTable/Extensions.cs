@@ -25,6 +25,12 @@ namespace SVN.AspNet.Logic
             var order = parameters.order[0];
             var column = parameters.columns[order.column];
             var propertyName = column.data;
+
+            if (string.IsNullOrWhiteSpace(propertyName))
+            {
+                return entity;
+            }
+
             var bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase;
             var property = typeof(T).GetProperty(propertyName, bindingFlags);
             propertyName = property.Name;

@@ -8,6 +8,11 @@
     // ------------------------------------------
 
     vm.init = function () {
+        settings.binding = settings.binding || function (x) { return x; };
+        settings.columns.data = settings.columns.data || "id";
+        settings.columns.text = settings.columns.text || "";
+        settings.columns.orderable = settings.columns.orderable || false;
+
         vm.initColumns();
         vm.initDataTable();
     };
@@ -35,7 +40,9 @@
             columns: settings.columns.select(x => {
                 return {
                     data: x.data,
+                    defaultContent: "",
                     text: x.text,
+                    orderable: x.orderable,
                 };
             }),
             ajax: {
@@ -50,7 +57,8 @@
                     vm.columnsVM([]);
                 },
                 complete: (jqXHR, textStatus) => {
-                    settings.ajaxAfter(jqXHR.responseJSON);
+                    let data = jqXHR.responseJSON;
+                    settings.ajaxAfter(data);
                 },
             },
             fnRowCallback: (row, data, colIndex) => {
@@ -60,15 +68,14 @@
 
                     let html = value;
 
-                    if (column.render) {
-                        html = $("#" + column.render).html();
+                    if (column.template) {
+                        html = $("#" + column.template).html();
                     }
 
                     let dom = $("td:nth-child(" + i + ")", row);
                     dom.html(html);
-
-                    ko.applyBindings({ item: value }, dom[0]);
                 }
+                ko.applyBindings(settings.binding(data), row);
             },
             fnDrawCallback: (oSettings) => {
                 vm.columnsVM.valueHasMutated();

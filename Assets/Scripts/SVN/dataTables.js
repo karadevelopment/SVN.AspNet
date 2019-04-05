@@ -1,5 +1,9 @@
-﻿function DataTableViewModel(selector, settings) {
+﻿function DataTableViewModel2(selector, settings) {
     let vm = this;
+
+    // ------------------------------------------
+
+    vm.columnsVM = ko.observableArray();
 
     // ------------------------------------------
 
@@ -13,18 +17,27 @@
 
         html += "<thead>";
         html += "<tr>";
-        for (let key in settings.columns) {
-            html += "<th>" + settings.columns[key].text + "</th>";
+        for (let i = 1; i <= settings.columns.length; i++) {
+            let column = settings.columns[i - 1];
+
+            html += "<th>";
+            html += column.text;
+            html += "</th>";
         }
         html += "</tr>";
         html += "</thead>";
 
-        $(selector).html(html);
+        $("#" + selector).html(html);
     };
 
     vm.initDataTable = function () {
-        $(selector).DataTable({
-            columns: settings.columns,
+        $("#" + selector).DataTable({
+            columns: settings.columns.select(x => {
+                return {
+                    data: x.data,
+                    text: x.text,
+                };
+            }),
             ajax: {
                 type: "POST",
                 url: settings.ajaxUrl,
@@ -34,16 +47,37 @@
                     return JSON.stringify(request);
                 },
                 beforeSend: (jqXHR, settings) => {
+                    vm.columnsVM([]);
                 },
                 complete: (jqXHR, textStatus) => {
                     settings.ajaxAfter(jqXHR.responseJSON);
                 },
             },
+            fnRowCallback: (row, data, colIndex) => {
+                for (let i = 1; i <= settings.columns.length; i++) {
+                    let column = settings.columns[i - 1];
+                    let value = data[column.data];
+
+                    let html = value;
+
+                    if (column.render) {
+                        html = $("#" + column.render).html();
+                    }
+
+                    let dom = $("td:nth-child(" + i + ")", row);
+                    dom.html(html);
+
+                    ko.applyBindings({ item: value }, dom[0]);
+                }
+            },
+            fnDrawCallback: (oSettings) => {
+                vm.columnsVM.valueHasMutated();
+            },
             processing: true,
             serverSide: true,
             searching: false,
             bLengthChange: false,
-            bInfo: true,
+            bInfo: false,
         });
     };
 

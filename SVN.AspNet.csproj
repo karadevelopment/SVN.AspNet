@@ -228,7 +228,7 @@
     <EmbeddedResource Include="Assets\Styles\DataTable\datatables.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Scripts\DataTable\datatables.bootstrap4.js" />
+    <EmbeddedResource Include="Assets\Styles\SVN\dataTable.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

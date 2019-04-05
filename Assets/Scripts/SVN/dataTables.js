@@ -41,7 +41,9 @@
             },
             processing: true,
             serverSide: true,
-            //searching: false,
+            searching: false,
+            bLengthChange: false,
+            bInfo: true,
         });
     };
 

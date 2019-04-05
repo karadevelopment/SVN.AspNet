@@ -1,4 +1,5 @@
 ﻿using SVN.AspNet.DataTransferObjects;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -16,19 +17,6 @@ namespace SVN.AspNet.Logic
 
             return (IQueryable<T>)entity.Provider.CreateQuery(Expression.Call(typeof(Queryable), methodName, typeArguments, entity.Expression, lambda));
         }
-
-        //public static IQueryable<T> FilterByValue<T>(this IQueryable<T> entity, Expression<Func<T, string>> propertySelector, string propertyValue)
-        //{
-        //    Expression<Func<T, string, bool>> expression =
-        //        (ex, value) => SqlFunctions.PatIndex(propertyValue.Trim(),
-        //            value.Trim()) > 0;
-
-        //    var newSelector = propertySelector.Body.Replace(propertySelector.Parameters[0], expression.Parameters[0]);
-        //    var body = expression.Body.Replace(expression.Parameters[1], newSelector);
-        //    var lambda = Expression.Lambda<Func<T, bool>>(body, expression.Parameters[0]);
-
-        //    return entity.Where(lambda);
-        //}
 
         public static IQueryable<T> ApplyDataTableParameters<T>(this IQueryable<T> entity, DataTableParameters parameters)
         {
@@ -50,10 +38,20 @@ namespace SVN.AspNet.Logic
                 entity = entity.CallExpression("OrderByDescending", propertyName);
             }
 
-            //entity = entity.Where(x => parameters.search.value == string.Empty || property.GetValue(x, null).ToString().Contains(parameters.search.value));
             entity = entity.Skip(parameters.index * parameters.length).Take(parameters.length);
 
             return entity;
+        }
+
+        public static object GetDataTableResponse<T>(this (List<T> list, int count) data, DataTableParameters parameters)
+        {
+            return new
+            {
+                parameters.draw,
+                data = data.list,
+                recordsTotal = data.count,
+                recordsFiltered = data.count,
+            };
         }
     }
 }

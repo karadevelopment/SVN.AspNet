@@ -36,8 +36,7 @@ namespace SVN.AspNet.Configs
             "Assets.Scripts.HighchartsThemes",
             "Assets.Scripts.Knockout",
             "Assets.Scripts.KendoUI",
-            "Assets.Scripts.DataTable.datatables.js",
-            "Assets.Scripts.DataTable.datatables.bootstrap4.js",
+            "Assets.Scripts.DataTable",
             "Assets.Scripts.SVN",
         };
 

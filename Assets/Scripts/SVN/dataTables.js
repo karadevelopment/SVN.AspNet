@@ -1,4 +1,4 @@
-﻿function DataTableViewModel2(selector, settings) {
+﻿function DataTableViewModel(selector, settings) {
     let vm = this;
 
     // ------------------------------------------

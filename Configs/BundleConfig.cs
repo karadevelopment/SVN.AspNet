@@ -36,7 +36,8 @@ namespace SVN.AspNet.Configs
             "Assets.Scripts.HighchartsThemes",
             "Assets.Scripts.Knockout",
             "Assets.Scripts.KendoUI",
-            "Assets.Scripts.DataTable",
+            "Assets.Scripts.DataTable.datatables.js",
+            "Assets.Scripts.DataTable.datatables.bootstrap4.js",
             "Assets.Scripts.SVN",
         };
 
@@ -141,9 +142,9 @@ namespace SVN.AspNet.Configs
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        var content = string.Empty;
-                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
-                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
+                        var content = reader.ReadToEnd();
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
                         result += $"{Environment.NewLine}{content}{Environment.NewLine}";
                     }
                 }
@@ -168,9 +169,9 @@ namespace SVN.AspNet.Configs
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        var content = string.Empty;
-                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
-                        content += reader.ReadToEnd().Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
+                        var content = reader.ReadToEnd();
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
                         result += $"{Environment.NewLine}{content}{Environment.NewLine}";
                     }
                 }

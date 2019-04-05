@@ -1,5 +1,5 @@
 ﻿window.ajax = {
-    length: ko.observable(0)
+    length: ko.observable(0),
 };
 
 function ajaxRequest(url, request, onSuccess, onError, useQueue) {

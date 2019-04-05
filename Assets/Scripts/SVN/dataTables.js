@@ -4,6 +4,25 @@
     // ------------------------------------------
 
     vm.init = function () {
+        vm.initColumns();
+        vm.initDataTable();
+    };
+
+    vm.initColumns = function () {
+        let html = "";
+
+        html += "<thead>";
+        html += "<tr>";
+        for (let key in settings.columns) {
+            html += "<th>" + settings.columns[key].text + "</th>";
+        }
+        html += "</tr>";
+        html += "</thead>";
+
+        $(selector).html(html);
+    };
+
+    vm.initDataTable = function () {
         $(selector).DataTable({
             columns: settings.columns,
             ajax: {
@@ -22,6 +41,7 @@
             },
             processing: true,
             serverSide: true,
+            //searching: false,
         });
     };
 

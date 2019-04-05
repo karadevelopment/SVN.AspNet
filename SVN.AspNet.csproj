@@ -222,20 +222,11 @@
     <EmbeddedResource Include="Assets\Images\DataTable\sort_desc_disabled.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.bootstrap.css" />
-    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.bootstrap4.css" />
-    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.foundation.css" />
-    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.jqueryui.css" />
-    <EmbeddedResource Include="Assets\Styles\DataTable\dataTables.semanticui.css" />
-    <EmbeddedResource Include="Assets\Styles\DataTable\jquery.dataTables.css" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\datatables.js" />
+    <EmbeddedResource Include="Assets\Styles\DataTable\datatables.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.bootstrap.js" />
-    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.bootstrap4.js" />
-    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.foundation.js" />
-    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.jqueryui.js" />
-    <EmbeddedResource Include="Assets\Scripts\DataTable\dataTables.semanticui.js" />
-    <EmbeddedResource Include="Assets\Scripts\DataTable\jquery.dataTables.js" />
+    <EmbeddedResource Include="Assets\Scripts\DataTable\datatables.bootstrap4.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

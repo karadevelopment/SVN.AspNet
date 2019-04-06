@@ -91,6 +91,7 @@
             searching: false,
             bLengthChange: false,
             bInfo: false,
+            bAutoWidth: false,
         });
     };
 

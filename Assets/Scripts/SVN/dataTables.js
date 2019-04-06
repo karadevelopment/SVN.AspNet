@@ -9,11 +9,15 @@
 
     vm.init = function () {
         settings.binding = settings.binding || function (x) { return x; };
-        settings.columns.data = settings.columns.data || "id";
-        settings.columns.text = settings.columns.text || "";
-        settings.columns.orderable = settings.columns.orderable || false;
         settings.ajaxBefore = settings.ajaxBefore || function (x) { };
         settings.ajaxAfter = settings.ajaxAfter || function (x) { };
+
+        for (let i = 1; i <= settings.columns.length; i++) {
+            let column = settings.columns[i - 1];
+            column.data = column.data || "";
+            column.text = column.text || "";
+            column.orderable = column.orderable || false;
+        }
 
         vm.initColumns();
         vm.initDataTable();

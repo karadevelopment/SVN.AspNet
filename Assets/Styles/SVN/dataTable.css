@@ -1,7 +1,32 @@
-﻿.dataTable tbody > tr:nth-child(2n+1) {
-    background: rgba(255, 255, 255, 0.1);
+﻿.dataTables_wrapper {
+    padding: 0 0 1rem;
 }
 
-.dataTable tbody > tr:nth-child(2n) {
-    background: rgba(255, 255, 255, 0.2);
-}
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0 1em;
+    }
+
+    .dataTables_wrapper .dataTables_processing {
+        display: none !important;
+    }
+
+    .dataTables_wrapper .dataTable {
+        color: #777;
+    }
+
+        .dataTables_wrapper .dataTable tbody > tr:nth-child(2n+1) {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .dataTables_wrapper .dataTable tbody > tr:nth-child(2n) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+    .dataTables_wrapper .dataTables_paginate > .paginate_button:not(.disabled),
+    .dataTables_wrapper .dataTables_paginate > span > .paginate_button:not(.current) {
+        color: #777 !important;
+    }
+
+    .dataTables_wrapper .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #333;
+    }

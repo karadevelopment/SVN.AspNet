@@ -1,4 +1,9 @@
-﻿.dropdown-item {
+﻿.row > div {
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+}
+
+.dropdown-item {
     cursor: pointer;
 }
 

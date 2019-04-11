@@ -13,18 +13,10 @@ namespace SVN.AspNet.Configs
         private const string ASSET_IMAGES_DIRECTORY = "Images";
         private const string ASSET_SCRIPT_FILE = "Scripts.js";
         private const string ASSET_STYLE_FILE = "Styles.css";
+        private const string ASSET_COMPONENT_FILE = "Components.cshtml";
 
         private const string ASSET_DIRECTORY_VARIABLE_FONT = "{SVN.AspNet.AssetPath.Fonts}";
         private const string ASSET_DIRECTORY_VARIABLE_IMAGES = "{SVN.AspNet.AssetPath.Images}";
-
-        private static readonly string[] AssetStyles = new string[]
-        {
-            "Assets.Styles.FontAwesome",
-            "Assets.Styles.Bootstrap",
-            "Assets.Styles.KendoUI",
-            "Assets.Styles.DataTable",
-            "Assets.Styles.SVN",
-        };
 
         private static readonly string[] AssetScripts = new string[]
         {
@@ -38,6 +30,20 @@ namespace SVN.AspNet.Configs
             "Assets.Scripts.KendoUI",
             "Assets.Scripts.DataTable",
             "Assets.Scripts.SVN",
+        };
+
+        private static readonly string[] AssetStyles = new string[]
+        {
+            "Assets.Styles.FontAwesome",
+            "Assets.Styles.Bootstrap",
+            "Assets.Styles.KendoUI",
+            "Assets.Styles.DataTable",
+            "Assets.Styles.SVN",
+        };
+
+        private static readonly string[] AssetComponents = new string[]
+        {
+            "Assets.Components.SVN",
         };
 
         private static string AssetPath
@@ -65,6 +71,11 @@ namespace SVN.AspNet.Configs
             get => Path.Combine(BundleConfig.AssetPath, BundleConfig.ASSET_STYLE_FILE);
         }
 
+        private static string AssetPathComponents
+        {
+            get => Path.Combine(BundleConfig.AssetPath, BundleConfig.ASSET_COMPONENT_FILE);
+        }
+
         private static string AssetUrl
         {
             get => $"/{BundleConfig.AssetPath.Replace('\\', '/')}";
@@ -78,6 +89,11 @@ namespace SVN.AspNet.Configs
         public static string AssetUrlStyles
         {
             get => $"{BundleConfig.AssetUrl}/{BundleConfig.ASSET_STYLE_FILE}";
+        }
+
+        public static string AssetUrlComponents
+        {
+            get => $"{BundleConfig.AssetUrl}/{BundleConfig.ASSET_COMPONENT_FILE}";
         }
 
         private static void WriteResource(string filePath, Stream stream)
@@ -125,33 +141,6 @@ namespace SVN.AspNet.Configs
             }
         }
 
-        private static void WriteStyles()
-        {
-            var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathStyles);
-
-            if (File.Exists(filePath))
-            {
-                return;
-            }
-
-            var result = string.Empty;
-            foreach (var folder in BundleConfig.AssetStyles)
-            {
-                foreach (var (filename, stream) in Assembly.GetResources(Assembly.GetCallingAssemblyName(), folder))
-                {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        var content = reader.ReadToEnd();
-                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
-                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
-                        result += $"{Environment.NewLine}{content}{Environment.NewLine}";
-                    }
-                }
-            }
-
-            File.WriteAllText(filePath, result);
-        }
-
         private static void WriteScripts()
         {
             var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathScripts);
@@ -179,12 +168,67 @@ namespace SVN.AspNet.Configs
             File.WriteAllText(filePath, result);
         }
 
+        private static void WriteStyles()
+        {
+            var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathStyles);
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            var result = string.Empty;
+            foreach (var folder in BundleConfig.AssetStyles)
+            {
+                foreach (var (filename, stream) in Assembly.GetResources(Assembly.GetCallingAssemblyName(), folder))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var content = reader.ReadToEnd();
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
+                        result += $"{Environment.NewLine}{content}{Environment.NewLine}";
+                    }
+                }
+            }
+
+            File.WriteAllText(filePath, result);
+        }
+
+        private static void WriteComponents()
+        {
+            var filePath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, BundleConfig.AssetPathComponents);
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            var result = string.Empty;
+            foreach (var folder in BundleConfig.AssetComponents)
+            {
+                foreach (var (filename, stream) in Assembly.GetResources(Assembly.GetCallingAssemblyName(), folder))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var content = reader.ReadToEnd();
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_FONT, BundleConfig.AssetPathFonts.Replace('\\', '/'));
+                        content = content.Replace(BundleConfig.ASSET_DIRECTORY_VARIABLE_IMAGES, BundleConfig.AssetPathImages.Replace('\\', '/'));
+                        result += $"{Environment.NewLine}{content}{Environment.NewLine}";
+                    }
+                }
+            }
+
+            File.WriteAllText(filePath, result);
+        }
+
         public static void Init(BundleCollection collection)
         {
             BundleConfig.WriteFonts();
             BundleConfig.WriteImages();
-            BundleConfig.WriteStyles();
             BundleConfig.WriteScripts();
+            BundleConfig.WriteStyles();
+            BundleConfig.WriteComponents();
         }
     }
 }

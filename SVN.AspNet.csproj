@@ -123,6 +123,7 @@
     <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.ttf" />
     <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.woff" />
     <EmbeddedResource Include="Assets\Fonts\FontAwesome\fa-solid-900.woff2" />
+    <EmbeddedResource Include="Assets\Components\SVN\searchbox.cshtml" />
     <None Include="nuget.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>

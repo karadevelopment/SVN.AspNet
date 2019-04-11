@@ -21,6 +21,7 @@ namespace SVN.AspNet.Models
 
         public string AssetScript { get; private set; }
         public string AssetStyle { get; private set; }
+        public string AssetComponents { get; private set; }
 
         public string SharedScript { get; private set; }
         public string SharedStyle { get; private set; }
@@ -86,6 +87,7 @@ namespace SVN.AspNet.Models
 
             this.AssetScript = $"<script type='text/javascript' src='{BundleConfig.AssetUrlScripts}'></script>";
             this.AssetStyle = $"<link rel='stylesheet' type='text/css' href='{BundleConfig.AssetUrlStyles}'>";
+            this.AssetComponents = $"<template id='components'></template><script>$('template#components').load('{BundleConfig.AssetUrlComponents}');</script>";
 
             this.SharedScript = ViewModel.ReadResources(Engine.ViewsSharedPath, $"{Engine.ViewsSharedLayoutViewName}.js").Join(Environment.NewLine);
             this.SharedStyle = ViewModel.ReadResources(Engine.ViewsSharedPath, $"{Engine.ViewsSharedLayoutViewName}.css").Join(Environment.NewLine);
@@ -186,6 +188,8 @@ namespace SVN.AspNet.Models
             yield return this.SharedStyle;
             yield return this.RouteStyle;
             yield return "</style>";
+
+            yield return this.AssetComponents;
         }
 
         public IHtmlString Render()

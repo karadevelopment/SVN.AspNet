@@ -1,0 +1,121 @@
+﻿<style>
+    .autocomplete {
+        position: fixed;
+        z-index: 3000;
+    }
+
+        .autocomplete > div {
+            display: block;
+            background: #fff;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            padding: 1rem .5rem;
+        }
+
+            .autocomplete > div > div {
+                padding: .5rem;
+                cursor: pointer;
+            }
+
+                .autocomplete > div > div:hover {
+                    color: #aaa;
+                }
+</style>
+<template id="searchbox">
+    <input class="form-control" autocomplete="off" data-bind="value: value, hasFocus: isSelected, valueUpdate: 'afterkeydown', enterkey: selectFirst, event: { focus: onFocus, blur: onFocusLost }" />
+    <!-- ko if: isSelected() || isFocused() -->
+    <!-- ko if: 0 < itemsVM().length -->
+    <div class="autocomplete">
+        <div>
+            <!-- ko foreach: itemsVM -->
+            <div data-bind="click: select">
+                <span data-bind="text: name"></span> (<span data-bind="text: id"></span>)
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+</template>
+<script>
+    ko.components.register("searchbox", {
+        viewModel: function (x) { return new ComponentSearchboxViewModel(layoutVM, x).init(); },
+        template: $("template#searchbox").html(),
+    });
+
+    function ComponentSearchboxViewModel(layoutVM, params) {
+        let vm = this;
+
+        // ------------------------------------------
+
+        vm.isSelected = ko.observable();
+        vm.isFocused = ko.observable();
+        vm.key = ko.observable();
+        vm.value = ko.observable();
+        vm.itemsVM = ko.observableArray();
+
+        // ------------------------------------------
+
+        vm.key.subscribe(x => {
+            params.callback(x);
+        });
+
+        vm.value.subscribe(x => {
+            vm.init();
+        });
+
+        // ------------------------------------------
+
+        vm.init = function () {
+            let request = {
+                data: vm.value(),
+            };
+            ajaxRequest(params.url, request, response => {
+                vm.itemsVM([]);
+                $(response.items).each((i, x) => {
+                    vm.itemsVM().push(new ComponentSearchboxItemViewModel(layoutVM, vm).init(x));
+                });
+                vm.itemsVM.valueHasMutated();
+            });
+            return vm;
+        };
+
+        vm.selectFirst = function () {
+            if (0 < vm.itemsVM().length) {
+                let itemVM = vm.itemsVM()[0];
+                itemVM.select();
+                $(".form-control").blur();
+            }
+        };
+
+        vm.onFocus = function () {
+            vm.isFocused(true);
+        };
+
+        vm.onFocusLost = function () {
+            window.setTimeout(() => vm.isFocused(false), 200);
+        };
+    }
+
+    function ComponentSearchboxItemViewModel(layoutVM, componentVM) {
+        let vm = this;
+
+        // ------------------------------------------
+
+        vm.id = ko.observable();
+        vm.name = ko.observable();
+
+        // ------------------------------------------
+
+        vm.init = function (data) {
+            vm.id(data.id);
+            vm.name(data.name);
+            return vm;
+        };
+
+        vm.select = function () {
+            componentVM.key(vm.id());
+            componentVM.value(vm.name());
+        };
+    }
+</script>

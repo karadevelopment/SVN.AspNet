@@ -29,7 +29,7 @@
         <div>
             <!-- ko foreach: itemsVM -->
             <div data-bind="click: select">
-                <span data-bind="text: name"></span> (<span data-bind="text: id"></span>)
+                <span data-bind="text: value"></span> (<span data-bind="text: key"></span>)
             </div>
             <!-- /ko -->
         </div>
@@ -39,7 +39,7 @@
 </template>
 <script>
     ko.components.register("searchbox", {
-        viewModel: function (x) { return new ComponentSearchboxViewModel(layoutVM, x).init(); },
+        viewModel: function (x) { return new ComponentSearchboxViewModel(layoutVM, x).init(true); },
         template: $("template#searchbox").html(),
     });
 
@@ -57,23 +57,28 @@
         // ------------------------------------------
 
         vm.key.subscribe(x => {
-            params.callback(x);
+            params.observable(x);
         });
 
         vm.value.subscribe(x => {
-            vm.init();
+            vm.init(false);
         });
 
         // ------------------------------------------
 
-        vm.init = function () {
+        vm.init = function (select) {
             let request = {
                 data: vm.value(),
             };
             ajaxRequest(params.url, request, response => {
                 vm.itemsVM([]);
                 $(response.items).each((i, x) => {
-                    vm.itemsVM().push(new ComponentSearchboxItemViewModel(layoutVM, vm).init(x));
+                    let itemVM = new ComponentSearchboxItemViewModel(layoutVM, vm, params).init(x);
+                    vm.itemsVM().push(itemVM);
+
+                    if (select && params.observable() == itemVM.key()) {
+                        itemVM.select();
+                    }
                 });
                 vm.itemsVM.valueHasMutated();
             });
@@ -97,25 +102,33 @@
         };
     }
 
-    function ComponentSearchboxItemViewModel(layoutVM, componentVM) {
+    function ComponentSearchboxItemViewModel(layoutVM, componentVM, params) {
         let vm = this;
 
         // ------------------------------------------
 
-        vm.id = ko.observable();
-        vm.name = ko.observable();
+        vm.data = ko.observable();
+
+        // ------------------------------------------
+
+        vm.key = ko.computed(() => {
+            return vm.data() && params.renderKey(vm.data());
+        });
+
+        vm.value = ko.computed(() => {
+            return vm.data() && params.renderValue(vm.data());
+        });
 
         // ------------------------------------------
 
         vm.init = function (data) {
-            vm.id(data.id);
-            vm.name(data.name);
+            vm.data(data);
             return vm;
         };
 
         vm.select = function () {
-            componentVM.key(vm.id());
-            componentVM.value(vm.name());
+            componentVM.key(vm.key());
+            componentVM.value(vm.value());
         };
     }
 </script>

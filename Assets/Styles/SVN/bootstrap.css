@@ -31,6 +31,15 @@
     color: #6c757d;
 }
 
+.btn-group.btn-block {
+    display: flex;
+}
+
+    .btn-group.btn-block .btn {
+        flex: 1;
+        margin: .05rem;
+    }
+
 .btn-twitch {
     background: #6441a4;
     border: 1px solid transparent;

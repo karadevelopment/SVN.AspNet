@@ -22,6 +22,7 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
+    .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_paginate > .paginate_button:not(.disabled),
     .dataTables_wrapper .dataTables_paginate > span > .paginate_button:not(.current) {
         color: #777 !important;

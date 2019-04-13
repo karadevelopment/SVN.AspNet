@@ -1,82 +1,133 @@
-﻿<style>
-    .autocomplete {
-        position: fixed;
-        z-index: 3000;
-    }
+﻿<template id="searchbox">
+    <!-- ko stopBinding: true -->
+    <div class="searchbox">
+        <style>
+            .searchbox-container {
+                display: block;
+                position: fixed;
+                z-index: 3000;
+            }
 
-        .autocomplete > div {
-            display: block;
-            background: #fff;
-            border: 1px solid #bbb;
-            border-radius: 5px;
-            padding: 1rem .5rem;
-        }
+            .searchbox-container {
+                background: #fff;
+                border: 1px solid #bbb;
+                border-radius: 3px;
+            }
 
-            .autocomplete > div > div {
+            .searchbox-item {
                 padding: .5rem;
                 cursor: pointer;
             }
 
-                .autocomplete > div > div:hover {
+                .searchbox-item:hover {
+                    background-color: #ddd;
                     color: #aaa;
                 }
-</style>
-<template id="searchbox">
-    <input class="form-control" autocomplete="off" data-bind="value: value, hasFocus: isSelected, valueUpdate: 'afterkeydown', enterkey: selectFirst, event: { focus: onFocus, blur: onFocusLost }" />
-    <!-- ko if: isSelected() || isFocused() -->
-    <!-- ko if: 0 < itemsVM().length -->
-    <div class="autocomplete">
-        <div>
+        </style>
+        <!-- ko if: isFocused() || isActive() -->
+        <!-- ko if: hasItems() -->
+        <div class="searchbox-container">
             <!-- ko foreach: itemsVM -->
-            <div data-bind="click: select">
-                <span data-bind="text: value"></span> (<span data-bind="text: key"></span>)
+            <div class="searchbox-item" data-bind="click: select">
             </div>
             <!-- /ko -->
         </div>
+        <!-- /ko -->
+        <!-- /ko -->
     </div>
     <!-- /ko -->
-    <!-- /ko -->
+</template>
+<template id="searchbox-item">
+    <span data-bind="text: item.name"></span>
+    <span>(</span>
+    <span data-bind="text: item.id"></span>
+    <span>)</span>
 </template>
 <script>
-    ko.components.register("searchbox", {
-        viewModel: function (x) { return new ComponentSearchboxViewModel(layoutVM, x).init(true); },
-        template: $("template#searchbox").html(),
-    });
+    ko.bindingHandlers.stopBinding = {
+        init: function () {
+            return { controlsDescendantBindings: true };
+        },
+    };
+    ko.virtualElements.allowedBindings.stopBinding = true;
 
-    function ComponentSearchboxViewModel(layoutVM, params) {
+    ko.bindingHandlers.searchbox = {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            $(element).attr("autocomplete", "off");
+            $(element).attr("data-bind", "value: dataTextDisplay, hasFocus: isFocused, valueUpdate: 'afterkeydown', enterkey: onEnter, event: { focus: onFocus, blur: onBlur }");
+
+            let template = $("template#searchbox");
+            $(element).parent().append(template.html());
+
+            let params = valueAccessor();
+            let vm = new ComponentSearchboxViewModel(params.url, params.dataValueField, params.dataTextField, params.value, params.renderTemplate).init(true);
+            let dom = $(element).next()[0];
+
+            $(dom).prepend(element);
+
+            ko.cleanNode(dom);
+            ko.applyBindings(vm, dom);
+        },
+    };
+
+    function ComponentSearchboxViewModel(url, dataValueField, dataTextField, value, renderTemplate) {
         let vm = this;
 
         // ------------------------------------------
 
-        vm.isSelected = ko.observable();
-        vm.isFocused = ko.observable();
-        vm.key = ko.observable();
-        vm.value = ko.observable();
+        vm.isFocused = ko.observable().extend({ throttle: 500 });
+        vm.isActive = ko.observable().extend({ throttle: 500 });
+        vm.dataValue = ko.observable();
+        vm.dataText = ko.observable().extend({ throttle: 500 });
+        vm.dataTextDisplay = ko.observable();
+        vm.dataTextLast = ko.observable();
         vm.itemsVM = ko.observableArray();
 
         // ------------------------------------------
 
-        vm.key.subscribe(x => {
-            params.observable(x);
+        vm.hasItems = ko.computed(() => {
+            return 0 < vm.itemsVM().length;
         });
 
-        vm.value.subscribe(x => {
+        // ------------------------------------------
+
+        vm.dataValue.subscribe(x => {
+            value(x);
+        });
+
+        vm.dataText.subscribe(x => {
             vm.init(false);
+        });
+
+        vm.dataTextDisplay.subscribe(x => {
+            vm.dataText(x);
+        });
+
+        vm.dataTextLast.subscribe(x => {
+            vm.dataTextDisplay(x);
+        });
+
+        vm.isActive.subscribe(x => {
+            vm.onUpdate();
+        });
+
+        vm.itemsVM.subscribe(x => {
+            vm.onUpdate();
         });
 
         // ------------------------------------------
 
         vm.init = function (select) {
             let request = {
-                data: vm.value(),
+                data: vm.dataText(),
             };
-            ajaxRequest(params.url, request, response => {
+            ajaxRequest(url, request, response => {
                 vm.itemsVM([]);
                 $(response.items).each((i, x) => {
-                    let itemVM = new ComponentSearchboxItemViewModel(layoutVM, vm, params).init(x);
+                    let itemVM = new ComponentSearchboxItemViewModel(vm, dataValueField, dataTextField).init(x);
                     vm.itemsVM().push(itemVM);
 
-                    if (select && params.observable() == itemVM.key()) {
+                    if (select && value() == itemVM.dataValue()) {
                         itemVM.select();
                     }
                 });
@@ -85,50 +136,67 @@
             return vm;
         };
 
-        vm.selectFirst = function () {
+        vm.select = function () {
             if (0 < vm.itemsVM().length) {
                 let itemVM = vm.itemsVM()[0];
                 itemVM.select();
-                $(".form-control").blur();
             }
         };
 
-        vm.onFocus = function () {
-            vm.isFocused(true);
+        vm.onEnter = function () {
+            vm.select();
+            $(".searchbox input").blur();
         };
 
-        vm.onFocusLost = function () {
-            window.setTimeout(() => vm.isFocused(false), 200);
+        vm.onUpdate = function () {
+            let template = $(renderTemplate && "#" + renderTemplate || "template#searchbox-item");
+            let jquery = $(".searchbox-item");
+
+            jquery.html(template.html());
+            jquery.each((i1, x1) => {
+                $(x1).children().each((i2, x2) => {
+                    ko.applyBindings(vm.itemsVM()[i1], x2);
+                });
+            });
+        };
+
+        vm.onFocus = function () {
+            vm.isActive(true);
+        };
+
+        vm.onBlur = function () {
+            vm.dataTextDisplay(vm.dataTextLast());
+            vm.isActive(false);
         };
     }
 
-    function ComponentSearchboxItemViewModel(layoutVM, componentVM, params) {
+    function ComponentSearchboxItemViewModel(componentVM, dataValueField, dataTextField) {
         let vm = this;
 
         // ------------------------------------------
 
-        vm.data = ko.observable();
+        vm.item = null;
 
         // ------------------------------------------
 
-        vm.key = ko.computed(() => {
-            return vm.data() && params.renderKey(vm.data());
-        });
+        vm.dataValue = function () {
+            return vm.item && vm.item[dataValueField];
+        };
 
-        vm.value = ko.computed(() => {
-            return vm.data() && params.renderValue(vm.data());
-        });
+        vm.dataText = function () {
+            return vm.item && vm.item[dataTextField];
+        };
 
         // ------------------------------------------
 
         vm.init = function (data) {
-            vm.data(data);
+            vm.item = data;
             return vm;
         };
 
         vm.select = function () {
-            componentVM.key(vm.key());
-            componentVM.value(vm.value());
+            componentVM.dataValue(vm.dataValue());
+            componentVM.dataTextLast(vm.dataText());
         };
     }
 </script>

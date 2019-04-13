@@ -64,3 +64,15 @@ Array.prototype.count = function (lambda) {
 
     return result;
 };
+
+Array.prototype.any = function (lambda) {
+    for (let i = 1; i <= this.length; i++) {
+        let item = this[i - 1];
+
+        if (!lambda || lambda(item)) {
+            return true;
+        }
+    }
+
+    return false;
+};

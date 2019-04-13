@@ -101,6 +101,10 @@
         });
     };
 
+    vm.reload = function () {
+        vm.dataTable.ajax.reload();
+    };
+
     // ------------------------------------------
 
     vm.init();

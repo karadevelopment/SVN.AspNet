@@ -173,7 +173,7 @@ namespace SVN.AspNet.Models
         {
             yield return "<script>";
             yield return $"window.route = {System.Web.Helpers.Json.Encode(this.Route)};";
-            yield return "window.query = {" + this.UrlParameters.Select(x => $"{x.Key}: {x.Value}").Join(", ") + "};";
+            yield return "window.query = {" + this.UrlParameters.Select(x => $"\"{x.Key}\": \"{x.Value}\"").Join(", ") + "};";
             yield return "</script>";
 
             yield return this.AssetScript;

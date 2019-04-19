@@ -237,5 +237,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Styles\SVN\theme.css" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Scripts\SVN\extensions.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
